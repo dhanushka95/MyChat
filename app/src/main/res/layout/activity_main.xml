@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartActivity">
+    tools:context=".StartActivity"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#E4EBE4">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="MyChat"
+        android:textStyle="bold"
+        android:textColor="#009688"
+        android:textAlignment="center"
+        />
 
     <Button
         android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="270dp"
-        android:text="Login"
+        android:layout_marginTop="100dp"
         android:background="@color/colorPrimary"
-        android:textColor="#ffff"/>
+        android:text="Login"
+        android:textColor="#ffff"
+        />
 
     <Button
         android:id="@+id/Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="351dp"
-        android:text="Register"
         android:background="@color/colorPrimary"
+        android:text="Register"
         android:textColor="#ffff"
-        />
+        android:layout_marginTop="10dp"/>
 
-</RelativeLayout>
+</LinearLayout>
