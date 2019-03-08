@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog dialog;
     Button btn_login;
     FirebaseAuth auth;
+    TextView forgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,16 @@ public class LoginActivity extends AppCompatActivity {
         passwrod = findViewById(R.id.password);
         email = findViewById(R.id.Email);
         btn_login = findViewById(R.id.btn_Login);
+        forgot = findViewById(R.id.forgot_password);
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,forgotPasswordActivity.class));
+            }
+        });
+
+
         auth = FirebaseAuth.getInstance();
         dialog=new ProgressDialog(this);
         btn_login.setOnClickListener(new View.OnClickListener() {

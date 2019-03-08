@@ -53,6 +53,16 @@
             android:id="@+id/btn_Login"
             android:textColor="#ffffff"
             android:layout_marginTop="20dp"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgot_password"
+            android:gravity="center"
+            android:text="Forgot your password?"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 

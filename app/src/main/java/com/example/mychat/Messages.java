@@ -3,6 +3,23 @@ package com.example.mychat;
 public class Messages {
 
     private String sender,receiver,message;
+    private boolean seen;
+
+    public Messages(String sender, String receiver, String message, boolean isSeen) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.seen = isSeen;
+    }
+
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
 
     public String getSender() {
         return sender;
@@ -31,9 +48,5 @@ public class Messages {
         this.message = message;
     }
 
-    public Messages(String sender, String receiver, String message) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.message = message;
-    }
+
 }
