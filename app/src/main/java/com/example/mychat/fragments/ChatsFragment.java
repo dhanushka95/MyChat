@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mychat.Messages;
 import com.example.mychat.R;
@@ -55,7 +56,9 @@ public class ChatsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                     userList.clear();
+
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
 
                     Messages chats =snapshot.getValue(Messages.class);
@@ -63,7 +66,7 @@ public class ChatsFragment extends Fragment {
                     if(chats.getSender().equals(firebaseUser.getUid())){
                         userList.add(chats.getReceiver());
                     }
-                    if(chats.getReceiver().equals(firebaseUser.getUid())){
+                      if(chats.getReceiver().equals(firebaseUser.getUid())){
                         userList.add(chats.getSender());
                     }
 
@@ -92,29 +95,32 @@ public class ChatsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUser.clear();
 
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
 
-                    User user = snapshot.getValue(User.class);
+                     User user = snapshot.getValue(User.class);
+                        for (String id : userList) {
 
-                    for(String id:userList){
-                        if(user.getId().equals(id)){
-                            if(mUser.size()!=0){
-
-                                for (User user1:mUser){
-                                    if(!user.getId().equals(user1.getId())){
-                                        mUser.add(user);
-                                    }
+                            if (user.getId().equals(id)) {
+                                if (mUser.size() != 0) {
+//                                   0 for (User user1 : mUser) {
+//                                        if (!user.getId().equals(user1.getId())) {
+//                                            mUser.add(user);
+//                                        }
+//                                    }
+                                } else {
+                                    mUser.add(user);
                                 }
-                            }else {
-                                mUser.add(user);
+
                             }
 
                         }
 
-                    }
+
                 }
-                userAdapter = new UserAdapter(getContext(),mUser);
+
+                userAdapter = new UserAdapter(getContext(),mUser,true);
                 recyclerView.setAdapter(userAdapter);
 
             }
