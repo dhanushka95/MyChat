@@ -43,8 +43,8 @@ public class Main2Activity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
-    TabLayout tableLayout;
-    ViewPager viewPager;
+   // TabLayout tableLayout;
+   // ViewPager viewPager;
 
 
     @Override
@@ -78,17 +78,44 @@ public class Main2Activity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         userName = findViewById(R.id.user_name_main);
 
-        tableLayout = findViewById(R.id.tab_layput);
-        viewPager = findViewById(R.id.view_pager);
+        final TabLayout tableLayout = findViewById(R.id.tab_layput);
+        final ViewPager viewPager = findViewById(R.id.view_pager);
 
-        ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
-        viewpagerAdapter.addFragment(new ChatsFragment(),"chat");
-        viewpagerAdapter.addFragment(new UserFragment(),"user");
-        viewpagerAdapter.addFragment(new ProfileFragment(),"Profile");
-        viewPager.setAdapter(viewpagerAdapter);
 
-        tableLayout.setupWithViewPager(viewPager);
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
+                int UnreadMessage = 0;
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Messages chat = snapshot.getValue(Messages.class);
+
+                    if(chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isSeen()){
+                        UnreadMessage++;
+                    }
+                }
+
+                if(UnreadMessage == 0){
+                    viewpagerAdapter.addFragment(new ChatsFragment(),"chat");
+                }else {
+                    viewpagerAdapter.addFragment(new ChatsFragment(),"("+UnreadMessage+")chat");
+                }
+                viewpagerAdapter.addFragment(new UserFragment(),"user");
+                viewpagerAdapter.addFragment(new ProfileFragment(),"Profile");
+                viewPager.setAdapter(viewpagerAdapter);
+
+                tableLayout.setupWithViewPager(viewPager);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());

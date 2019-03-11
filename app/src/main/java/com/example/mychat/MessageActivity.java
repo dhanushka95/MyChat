@@ -1,6 +1,7 @@
 package com.example.mychat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -212,6 +213,8 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+
+
         final String msg = Message;
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -232,7 +235,33 @@ public class MessageActivity extends AppCompatActivity {
         });
 
 
+        addChatListResever(userId);
+    }
+    private boolean addChatListResever(final String uid){
 
+//add new
+        final DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist").child(uid)
+                .child(firebaseUser.getUid());
+
+        chatRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(!dataSnapshot.exists()){
+                    chatRef1.child("id").setValue(firebaseUser.getUid());
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+return true;
     }
 
     private void sendNotification(String reciever, final String name, final String message) {
@@ -254,7 +283,7 @@ public class MessageActivity extends AppCompatActivity {
                         public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                             if(response.code()==200){
                                 if(response.body().succes!=1){
-                                    Toast.makeText(MessageActivity.this,"faild!",Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(MessageActivity.this,"faild send notification!",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -317,10 +346,19 @@ public class MessageActivity extends AppCompatActivity {
         reference.updateChildren(hashMap);
     }
 
+    private boolean currentUser(String UserId){
+
+
+        SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+        editor.putString("Currentuser",UserId);
+        editor.apply();
+        return true;
+    }
     @Override
     protected void onResume() {
         super.onResume();
         status("Online");
+        currentUser(userId);
     }
 
     @Override
@@ -328,5 +366,6 @@ public class MessageActivity extends AppCompatActivity {
         super.onPause();
         reference.removeEventListener(seenListener);
         status("Offline");
+        currentUser("none");
     }
 }

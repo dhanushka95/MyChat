@@ -38,20 +38,20 @@ public class forgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            String Email = email.getText().toString();
+            String emails = email.getText().toString();
 
-            if(Email.equals("")){
+            if(emails.equals("")){
 
                 Toast.makeText(getApplicationContext(),"fill Email",Toast.LENGTH_SHORT).show();
 
             }else {
 
-                auth.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                auth.sendPasswordResetEmail(emails).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
                         if(task.isSuccessful()){
-
+                        Toast.makeText(getApplicationContext(),"please check your Email",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(forgotPasswordActivity.this,LoginActivity.class));
 
                         }else {

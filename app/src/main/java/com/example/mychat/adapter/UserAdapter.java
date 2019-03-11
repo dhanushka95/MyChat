@@ -56,6 +56,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
               Glide.with(mContext).load(user.getImageURL()).into((holder.profile_images));
         }
+
         if(isChat){
 
             lastMessage(user.getId(),holder.last_msg);
@@ -119,7 +120,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
     }
     private  void lastMessage(final String userId, final TextView last_msg){
-        TheLastMessage = "deafult";
+        TheLastMessage = "default";
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -131,10 +132,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     Messages chat =snapshot.getValue(Messages.class);
 
-                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userId) ||
-                       chat.getReceiver().equals(userId)&& chat.getSender().equals(firebaseUser.getUid())){
+                    try {
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userId) ||
+                                chat.getReceiver().equals(userId) && chat.getSender().equals(firebaseUser.getUid())) {
 
-                        TheLastMessage = chat.getMessage();
+                            TheLastMessage = chat.getMessage();
+                        }
+                    }catch (Exception e){
+
                     }
 
                 }
