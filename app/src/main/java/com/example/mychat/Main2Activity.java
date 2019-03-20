@@ -130,7 +130,7 @@ public class Main2Activity extends AppCompatActivity {
                     userName.setText(user.getName());
 
                     if (user.getImageURL().equals("default")) {
-                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                        profile_image.setImageResource(R.drawable.user);
                     } else {
                         Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                     }

@@ -115,7 +115,7 @@ public class MessageActivity extends AppCompatActivity {
                  userName.setText(user.getName());
 
                  if(user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.drawable.user);
 
                  }else {
 
