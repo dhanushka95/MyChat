@@ -65,4 +65,12 @@
         android:paddingTop="5dp"
         android:textColor="#555"
         tools:text="hello world" />
+    <View
+        android:layout_width="400dp"
+        android:layout_height="1sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60sp"
+        android:layout_marginLeft="60dp"
+        android:background="#D5D0D0" />
+
 </RelativeLayout>
